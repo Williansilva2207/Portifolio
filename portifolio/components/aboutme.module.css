@@ -1,0 +1,24 @@
+.AboutMe{
+    display:block;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    
+
+}
+.listaSkills{
+    display: flex;
+    list-style: none;
+}
+.skill{
+    display: block;
+    align-items: center;
+    text-align: center;
+    
+}
+.li{
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: 150%;
+}
