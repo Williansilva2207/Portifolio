@@ -4,12 +4,16 @@
     padding-right: 10%;
     padding-top: 3%;
     padding-bottom: 3%;
-    
+    margin-top: 10%;
+
 
 }
 .listaSkills{
     display: flex;
     list-style: none;
+    justify-content: center;
+    align-items: center;
+    
 }
 .skill{
     display: block;
@@ -18,6 +22,7 @@
     
 }
 .li{
+    margin-top: 20px;
     padding-left: 50px;
     padding-right: 50px;
     font-size: 150%;

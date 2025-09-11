@@ -1,5 +1,5 @@
 import style from "./aboutme.module.css"
-import { FaPython, FaJava,  FaReact, FaHtml5, FaCss3Alt,  } from "react-icons/fa";
+import { FaPython, FaJava,  FaReact, FaHtml5, FaCss3Alt, FaJsSquare } from "react-icons/fa";
 export function AboutMe(){
     return(
     <section className = {style.AboutMe}>
@@ -12,9 +12,7 @@ export function AboutMe(){
             <li className={style.li}><FaReact /> React </li>
             <li className={style.li}><FaHtml5 /> HTML5 </li>
             <li className={style.li}><FaCss3Alt /> CSS3 </li>
-            <li className={style.li}> JavaScript </li>
-                        
-            
+            <li className={style.li}><FaJsSquare />JavaScript </li>
         </ul>
         
       </section>
