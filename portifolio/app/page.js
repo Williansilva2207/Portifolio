@@ -8,7 +8,8 @@ export default function Home() {
 
         <div className={style.text1}>
           <h1 className={style.Titulo}>Oi, eu sou Willian Rodrigues</h1>
-          <p>Estudante de Ciência da Computação que busca por meio da tecnologia um mundo melhor!</p>
+          <p>Estudante de Ciência da Computação que busca 
+            por meio da tecnologia um mundo melhor!</p>
         </div>
         
         <div className={style.Foto}>
