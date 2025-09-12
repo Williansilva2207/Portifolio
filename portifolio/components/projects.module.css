@@ -5,17 +5,16 @@
     box-shadow: 5px 5px 5px hsla(264, 91%, 27%, 0.719);
     padding: 20px;
     margin: 10px;
-    text-align: center;
+    text-align:center;
     max-width: 400px;
-    display: inline-block;
-    display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 .card .cardImage{
-    max-width: 60%;
+    border: 2px solid white;
+    max-width: 40%;
     height: auto;
-    border-radius: 50%;
+    border-radius: 1100%;
     margin-bottom: 10px;
     margin-right: 20px;
 }
@@ -23,10 +22,20 @@
     font-family: Arial, sans-serif;
     margin: 0;
     color: white;
-    font-size: 18px;
+    font-size: 110%;
+    margin-bottom: 10px;
 }
 .card .cardText{
     font-family: Arial, sans-serif;
     color: white;
     font-size: 14px;
+    margin-right: 2%;
+    margin-left: 2%;
+}
+.Title{
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+    font-size: 200%;
+    margin-bottom: 20px;
 }
