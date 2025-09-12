@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "@coreui/coreui": "^5.4.3",
+    "@coreui/react": "^5.8.0",
+    "bootstrap": "^5.3.8",
+    "react-bootstrap": "^2.10.10",
     "react-icons": "^5.5.0"
   }
 }
