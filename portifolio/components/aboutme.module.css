@@ -15,6 +15,9 @@
     align-items: center;
     
 }
+.listaSkills li{
+    list-style: none;
+}
 .skill{
     display: block;
     align-items: center;

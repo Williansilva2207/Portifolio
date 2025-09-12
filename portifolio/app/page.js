@@ -10,11 +10,11 @@ export default function Home() {
       <div className={style.apresentation}>
        <Apresentation />
       </div>
-      <hr></hr>
+      <br/>
       <div className={style.aboutMe}>
         <AboutMe />
       </div>
-      <hr></hr>
+      <br />
       
       <div className={style.projects}>
         <Projects />
