@@ -15,12 +15,17 @@
 .apresentation {
   width: 100%;
   margin-bottom: 10%;
+  color: white;
+  background-color: rgb(43, 0, 255);;
 }
 .aboutMe {
   margin-top:20%;
 }
 .projects {
-  
-  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(43, 0, 255);
   margin-bottom: 10%;
+  margin-top: 5%;
+  
 }
