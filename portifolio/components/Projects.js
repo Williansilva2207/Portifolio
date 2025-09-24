@@ -25,7 +25,7 @@ export function Projects(){
                 </div>
                 <div className={style.card}>
                 
-                     <Link href="app/Forca">
+                     <Link href="/Forca">
                         <Image
                          src="/forca.png"
                          width={350}

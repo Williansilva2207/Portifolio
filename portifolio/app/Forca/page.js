@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "./forca.module.css";
+import Image from "next/image";
 
 export default function ForcaPage() {
   const wordsList = [
@@ -12,7 +13,16 @@ export default function ForcaPage() {
     "Duncan Idaho", "Thufir Hawat", "Liet-Kynes", "Sietch", "Crysknife",
     "Gom Jabbar", "Água da Vida", "Choam"
   ];
-
+  const imagens = [
+      "/Shai Hulud 1.png",
+      "/Shai Hulud 2.png",
+      "/Shai Hulud 3.png",
+      "/Shai Hulud 4.png",
+      "/Shai Hulud 5.png",
+      "/Shai Hulud 6_1.png",
+      "/Shai Hulud 7.png",
+      "/Shai Hulud and Fremen.png",
+    ];
   const [word, setWord] = useState("");
   const [inputLetter, setInputLetter] = useState("");
   const [guessedLetters, setGuessedLetters] = useState([]);
@@ -55,16 +65,7 @@ export default function ForcaPage() {
     setInputLetter("");
   }
 
-  useEffect(() => {
-    if (!word) return;
-    if (maxWrongGuesses <= 0) {
-      alert(`Você perdeu! A palavra era: ${word}`);
-    } else if (
-      word.split("").every((l) => l === " " || l === "-" || guessedLetters.includes(l))
-    ) {
-      alert("Parabéns! Você ganhou!");
-    }
-  }, [guessedLetters, maxWrongGuesses, word]);
+ 
 
   function displayPalavra() {
     return word.split("").map((l, i) => (
@@ -73,9 +74,29 @@ export default function ForcaPage() {
       </span>
     ));
   }
+  function getImagem() {
+    const venceu = word.split("").every(l => l === " " || l === "-" || guessedLetters.includes(l));
+    const perdeu = maxWrongGuesses <= 0;
+
+    if (venceu) return imagens[7];  // imagem de vitória
+    if (perdeu) return imagens[6];  // imagem de derrota
+
+    const index = 6 - maxWrongGuesses; // calcula a imagem correta
+    return imagens[index];
+  }
 
   return (
     <section className={styles.forcaSection}>
+      <h1 className={styles.title}>Jogo da Forca - Tema Duna</h1>
+      <div className={styles.forcaImages}>
+          <Image
+            src={getImagem()}
+            alt="Imagem do jogo"
+            width={400}
+            height={400}
+            className={styles.imagem}
+          />
+        </div>
       <div className={styles.palavra}>{displayPalavra()}</div>
 
       {maxWrongGuesses > 0 && (

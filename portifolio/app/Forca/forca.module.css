@@ -1,12 +1,16 @@
 .forcaSection {
-  padding: 1rem 1rem;
+  padding: 50px;
   max-width: 800px;
   margin: auto;
   margin-top: -35px;
   border-radius: 20px;
   text-align: center;
 }
-
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
 .forcaContainer {
   display: flex;
   flex-direction: column;
@@ -32,11 +36,12 @@
   gap: 0.5rem;
 }
 
-.letraInput {
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  width: 200px;
-  text-align: center;
+.letraForm {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  gap: 0.5rem;
+  margin-top: 1.5rem;     
 }
 
 .submitBtn,
@@ -87,10 +92,32 @@
 
 .imagem {
   max-width: 350px;
-  width: 100%;
+  width: 20%;
   height: auto;
   object-fit: contain;
   display: block;
   margin-top: -60px;
   margin-bottom: -50px;
+}
+.forcaSection {
+  padding: 50px;
+  max-width: 800px;
+  margin: auto;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem; /* aumenta o espaço abaixo do título */
+  color: var(--primary);
+}
+
+.imagem {
+  max-width: 400px;   /* aumenta o tamanho máximo da imagem */
+  width: 30%;         /* largura relativa ao container */
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 2rem auto;  /* centraliza horizontalmente e adiciona espaço acima/abaixo */
 }
