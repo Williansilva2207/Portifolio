@@ -8,7 +8,7 @@ export default function ForcaPage() {
   const wordsList = [
     "Arrakis", "Duna", "Caladan", "Salusa Secundus", "Kaitain", "Corrino",
     "Harkonnen", "Atreides", "Fremen", "Bene Gesserit", "Mentat", "Sardaukar",
-    "Muad’Dib", "Kwisatz Haderach", "Shai-Hulud", "Especiaria", "Melange",
+    "Muad'Dib", "Kwisatz Haderach", "Shai-Hulud", "Especiaria", "Melange",
     "Stilgar", "Chani", "Alia", "Paul Atreides", "Irulan", "Gurney Halleck",
     "Duncan Idaho", "Thufir Hawat", "Liet-Kynes", "Sietch", "Crysknife",
     "Gom Jabbar", "Água da Vida", "Choam"
@@ -70,7 +70,7 @@ export default function ForcaPage() {
   function displayPalavra() {
     return word.split("").map((l, i) => (
       <span key={i} className={styles.letra}>
-        {l === " " || l === "-" ? l : guessedLetters.includes(l) || maxWrongGuesses <= 0 ? l : "_"}
+        {l === " " || l === "-" || l === "'" ? l : guessedLetters.includes(l) || maxWrongGuesses <= 0 ? l : "_"}
       </span>
     ));
   }
@@ -78,10 +78,10 @@ export default function ForcaPage() {
     const venceu = word.split("").every(l => l === " " || l === "-" || guessedLetters.includes(l));
     const perdeu = maxWrongGuesses <= 0;
 
-    if (venceu) return imagens[7];  // imagem de vitória
-    if (perdeu) return imagens[6];  // imagem de derrota
+    if (venceu) return imagens[7];  
+    if (perdeu) return imagens[6];  
 
-    const index = 6 - maxWrongGuesses; // calcula a imagem correta
+    const index = 6 - maxWrongGuesses; 
     return imagens[index];
   }
 
@@ -99,10 +99,10 @@ export default function ForcaPage() {
         </div>
       <div className={styles.palavra}>{displayPalavra()}</div>
 
-      {maxWrongGuesses > 0 && (
+      {!(maxWrongGuesses <= 0 || word.split("").every(l => l === " " || l === "-" || l === "'"|| guessedLetters.includes(l))) && (
         <form onSubmit={handleSubmit} className={styles.letraForm}>
           <input
-            type="text"
+           type="text"
             maxLength={1}
             value={inputLetter}
             onChange={(e) => setInputLetter(e.target.value)}
@@ -113,7 +113,7 @@ export default function ForcaPage() {
             Enviar
           </button>
         </form>
-      )}
+  )}
 
       <div className={styles.letrasUsadas}>
         <div>
@@ -139,7 +139,7 @@ export default function ForcaPage() {
       </div>
 
       {(maxWrongGuesses <= 0 ||
-        word.split("").every((l) => l === " " || l === "-" || guessedLetters.includes(l))) && (
+        word.split("").every((l) => l === " " || l === "-" || l === "'" || guessedLetters.includes(l))) && (
         <div className={styles.status}>
           {maxWrongGuesses <= 0
             ? `Você perdeu! Palavra: ${word}`

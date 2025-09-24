@@ -46,7 +46,7 @@
 
 .submitBtn,
 .restartBtn {
-  background: var(--secondary);
+  background: #2a1005;
   color: white;
   border: none;
   border-radius: 8px;

@@ -27,7 +27,7 @@ export function Projects(){
                 
                      <Link href="/Forca">
                         <Image
-                         src="/forca.png"
+                         src="/paul.png"
                          width={350}
                          height={750}
                          alt="Jogo da Forca"
@@ -35,8 +35,8 @@ export function Projects(){
                         />
                     </Link>
                 
-                    <h2 className={style.cardTitle}>Jogo da Forca</h2>
-                    <p className={style.cardText}>Esse projeto é um jogo da forca criado totalmente com React e suas ferramentas.</p>
+                    <h2 className={style.cardTitle}>Jogo da Forca - Tema Duna</h2>
+                    <p className={style.cardText}>Esse projeto é um jogo da forca criado totalmente com React e suas ferramentas, onde desafia o jogador a descobrir elementos presentes do universo de Duna.</p>
                 </div>                
             </div>
         </div>
