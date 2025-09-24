@@ -1,15 +1,12 @@
+import Link from "next/link";
 import style from "./projects.module.css"
 import Image from "next/image";
 
 export function Projects(){
-    return(
-        
-        
-            
-            
+    return(            
         <div className={style.projects}>
-               <h1 className={style.Title}>Projetos</h1>
-               <div className={style.section}>
+            <h1 className={style.Title}>Projetos</h1>
+            <div className={style.section}>
                 <div className={style.card}>
                 
                     <a href="https://github.com/Williansilva2207/Rede-YOLO-para-detectar-o-Homem-Aranha-e-Deadpool"><Image src="/DS.png" width={350} height={750} alt="Projeto Deadpool vs Homem Aranha" className={style.cardImage}/></a>
@@ -25,8 +22,23 @@ export function Projects(){
                 
                     <h2 className={style.cardTitle}>Redução de Dimensionalidade de Imagem Para Redes Neurais</h2>
                     <p className={style.cardText}>Esse projeto visa utilizar algumas bibliotecas e ferramentas pythons para a redução da Dimensionalidade de imagens, técnica essa que permite um treinamento menos custoso de redes neurais.</p>
-                </div>                
                 </div>
+                <div className={style.card}>
+                
+                     <Link href="app/Forca">
+                        <Image
+                         src="/forca.png"
+                         width={350}
+                         height={750}
+                         alt="Jogo da Forca"
+                         className={style.cardImage}
+                        />
+                    </Link>
+                
+                    <h2 className={style.cardTitle}>Jogo da Forca</h2>
+                    <p className={style.cardText}>Esse projeto é um jogo da forca criado totalmente com React e suas ferramentas.</p>
+                </div>                
+            </div>
         </div>
         
     );

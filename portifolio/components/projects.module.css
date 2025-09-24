@@ -44,7 +44,6 @@
 }
 .card:hover {
   transform: translateY(-10px); 
-  
   box-shadow: 30px 30px 30px hsla(0, 0%, 0%, 0.832); 
 }
 .card .cardImage{
