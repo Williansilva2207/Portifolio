@@ -8,18 +8,19 @@
   min-height: 110svh;
   padding-left: 0px;
   padding-right: 0px;
-  padding-top: 20em;
-  gap: 64px;
+  padding-top: 10px;
+  gap: 10px;
   font-family: var(--font-geist-sans);
 }
 .apresentation {
   width: 100%;
-  margin-bottom: 10%;
+  margin-bottom: 2%;
   color: white;
   background-color: rgb(43, 0, 255);;
 }
 .aboutMe {
-  margin-top:20%;
+  margin-top:25%;
+  margin-bottom: 15%;
 }
 .projects {
   display: flex;
