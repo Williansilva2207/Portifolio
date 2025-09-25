@@ -3,6 +3,7 @@ import { Apresentation } from "@/components/Apresentation";
 import { AboutMe } from "@/components/AboutMe";
 import { Projects } from "@/components/Projects";
 import { Cabecalho } from "@/components/Cabecalho";
+import { Rodape } from "@/components/Rodape";
 
 export default function Home() {
   return (
@@ -20,6 +21,10 @@ export default function Home() {
       <div id = "project" className={style.projects}>
         <Projects  />
       </div>
+      <div  className={style.footer}>
+        <Rodape  />
+      </div>
+      
     </main>
     
   );
