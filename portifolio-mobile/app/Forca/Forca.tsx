@@ -75,9 +75,32 @@ export default function Forca() {
     setInputLetter('');
   }
 
+  // normaliza caracteres removendo acentos para comparação
+  const normalizeChar = (c: string) => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+
+  // handle via teclado exibido na tela
+  function handleGuess(letter: string) {
+    const g = letter.toUpperCase();
+    if (guessedLetters.includes(g)) {
+      Alert.alert('Aviso', `A letra "${g}" já foi usada!`);
+      return;
+    }
+
+    setGuessedLetters((prev) => [...prev, g]);
+
+    const normalizedWord = word.split('').map((l) => normalizeChar(l));
+    const normalizedGuess = normalizeChar(g);
+    if (!normalizedWord.includes(normalizedGuess)) {
+      setMaxWrongGuesses((t) => t - 1);
+    }
+  }
+
   function displayPalavra() {
     return word.split('').map((l, i) => {
-      const visible = l === ' ' || l === '-' || l === "'" || guessedLetters.includes(l) || maxWrongGuesses <= 0;
+      const visible =
+        l === ' ' || l === '-' || l === "'" ||
+        guessedLetters.some((g) => normalizeChar(g) === normalizeChar(l)) ||
+        maxWrongGuesses <= 0;
       return (
         <Text key={i} style={styles.letra}>
           {visible ? l : '_'}
@@ -107,8 +130,9 @@ export default function Forca() {
     return 6 - maxWrongGuesses;
   }
 
-  const acertadas = guessedLetters.filter((l) => word.includes(l));
-  const erradas = guessedLetters.filter((l) => !word.includes(l));
+  const normalizedWord = word.split('').map((l) => normalizeChar(l));
+  const acertadas = guessedLetters.filter((l) => normalizedWord.includes(normalizeChar(l)));
+  const erradas = guessedLetters.filter((l) => !normalizedWord.includes(normalizeChar(l)));
   const gameOver = maxWrongGuesses <= 0 || word.split('').every((l) => l === ' ' || l === '-' || l === "'" || guessedLetters.includes(l));
 
   const imageIndex = getImagemIndex();
@@ -147,20 +171,25 @@ export default function Forca() {
         <View style={styles.palavra}>{displayPalavra()}</View>
 
         {!gameOver && (
-          <View style={styles.form}>
-            <TextInput
-              style={styles.input}
-              maxLength={1}
-              value={inputLetter}
-              onChangeText={setInputLetter}
-              placeholder="Digite uma letra"
-              autoCapitalize="characters"
-              returnKeyType="done"
-              onSubmitEditing={handleSubmit}
-            />
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Enviar</Text>
-            </TouchableOpacity>
+          <View style={styles.keyboard}>
+            {[
+              'A','B','C','D','E','F','G',
+              'H','I','J','K','L','M','N',
+              'O','P','Q','R','S','T','U',
+              'V','W','X','Y','Z','Ç'
+            ].map((k) => {
+              const used = guessedLetters.includes(k);
+              return (
+                <TouchableOpacity
+                  key={k}
+                  style={[styles.key, used && styles.keyUsed]}
+                  onPress={() => handleGuess(k)}
+                  disabled={used}
+                >
+                  <Text style={[styles.keyText, used && styles.keyTextUsed]}>{k}</Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         )}
 
@@ -217,4 +246,9 @@ const styles = StyleSheet.create({
   restartText: { color: '#fff', fontWeight: '700' },
   tentativas: { marginTop: 8, fontSize: 14 },
   bold: { fontWeight: '700' },
+  keyboard: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginVertical: 12 },
+  key: { width: 40, height: 40, backgroundColor: '#fff', margin: 4, alignItems: 'center', justifyContent: 'center', borderRadius: 6, borderWidth: 1, borderColor: '#ddd' },
+  keyUsed: { backgroundColor: '#eee', borderColor: '#ccc' },
+  keyText: { fontSize: 16, fontWeight: '700' },
+  keyTextUsed: { color: '#999' },
 });
