@@ -56,31 +56,32 @@ export function Projects({ onOpenForca }: Props) {
 			<Text style={styles.title}>Projetos</Text>
 			<ScrollView contentContainerStyle={styles.section}>
 				{projects.map((p) => (
-					<View key={p.title} style={styles.card}>
-								<TouchableOpacity
-									onPress={() => {
-										if (!p.url && p.title.includes('Forca')) {
-											onOpenForca?.();
-											return;
-										}
-										open(p.url);
-									}}
-									activeOpacity={0.8}
-								>
-							<Image
-								source={
-									p.title.includes('Deadpool')
-										? require('../assets/images/DS.png')
-										: p.title.includes('Redução')
-										? require('../assets/images/code.png')
-										: require('../assets/images/paul.png')
-								}
-								style={styles.cardImage}
-							/>
-						</TouchableOpacity>
+					<TouchableOpacity
+						key={p.title}
+						style={styles.card}
+						activeOpacity={0.85}
+						onPress={() => {
+							// detectar jogo da forca de forma mais robusta (case-insensitive) ou quando não há URL externa
+							if (!p.url || /forca/i.test(p.title)) {
+								onOpenForca?.();
+								return;
+							}
+							open(p.url);
+						}}
+					>
+						<Image
+							source={
+								p.title.includes('Deadpool')
+									? require('../assets/images/DS.png')
+									: p.title.includes('Redução')
+									? require('../assets/images/code.png')
+									: require('../assets/images/paul.png')
+							}
+							style={styles.cardImage}
+						/>
 						<Text style={styles.cardTitle}>{p.title}</Text>
 						<Text style={styles.cardText}>{p.description}</Text>
-					</View>
+					</TouchableOpacity>
 				))}
 			</ScrollView>
 		</View>

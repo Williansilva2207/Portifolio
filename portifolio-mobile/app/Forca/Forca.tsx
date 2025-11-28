@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Animated,
 } from 'react-native';
 
 const wordsList = [
@@ -96,9 +97,43 @@ export default function Forca() {
     return imagens[index];
   }
 
+  function getImagemIndex() {
+    const venceu = word.split('').every((l) => l === ' ' || l === '-' || guessedLetters.includes(l) || l === "'");
+    const perdeu = maxWrongGuesses <= 0;
+
+    if (venceu) return 7;
+    if (perdeu) return 6;
+
+    return 6 - maxWrongGuesses;
+  }
+
   const acertadas = guessedLetters.filter((l) => word.includes(l));
   const erradas = guessedLetters.filter((l) => !word.includes(l));
   const gameOver = maxWrongGuesses <= 0 || word.split('').every((l) => l === ' ' || l === '-' || l === "'" || guessedLetters.includes(l));
+
+  const imageIndex = getImagemIndex();
+  const imageSource = imagens[imageIndex];
+  const opacity = useRef(new Animated.Value(1)).current;
+
+  // pré-carregar imagens locais (no caso de require isso garante referência)
+  useEffect(() => {
+    imagens.forEach((img) => {
+      // Image.prefetch aceita URIs; for local requires this is a no-op but safe
+      try {
+        Image.prefetch?.(img as any);
+      } catch (e) {
+        // ignore
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // animar opacidade quando o índice da imagem mudar
+  useEffect(() => {
+    opacity.setValue(0);
+    Animated.timing(opacity, { toValue: 1, duration: 120, useNativeDriver: true }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageIndex]);
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.flex}>
@@ -106,7 +141,7 @@ export default function Forca() {
         <Text style={styles.title}>Jogo da Forca - Tema Duna</Text>
 
         <View style={styles.imageWrap}>
-          <Image source={getImagem()} style={styles.image} resizeMode="contain" />
+          <Animated.Image source={imageSource} style={[styles.image, { opacity }]} resizeMode="contain" />
         </View>
 
         <View style={styles.palavra}>{displayPalavra()}</View>
@@ -163,8 +198,8 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   container: { padding: 16, alignItems: 'center' },
   title: { fontSize: 20, fontWeight: '700', marginBottom: 12 },
-  imageWrap: { width: '100%', height: 220, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
-  image: { width: 300, height: 200 },
+  imageWrap: { width: '100%', height: 240, alignItems: 'center', justifyContent: 'center', marginBottom: 12, paddingHorizontal: 8 },
+  image: { width: '90%', height: 200 },
   palavra: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginVertical: 12 },
   letra: { fontSize: 22, marginHorizontal: 4 },
   form: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },

@@ -14,7 +14,6 @@ export default function App() {
 	const positions = useRef<Record<string, number>>({});
 
 	const handleNavigate = (target: string) => {
-		// when header buttons pressed, ensure we're on home then scroll to section
 		const scrollToSection = () => {
 			const y = positions.current[target] ?? 0;
 			scrollRef.current?.scrollTo({ y, animated: true });
@@ -22,7 +21,6 @@ export default function App() {
 
 		if (route !== 'home') {
 			setRoute('home');
-			// small delay to let home render before scrolling
 			setTimeout(scrollToSection, 120);
 		} else {
 			scrollToSection();
@@ -34,8 +32,14 @@ export default function App() {
 	return (
 		<SafeAreaView style={styles.safe}>
 			<Cabecalho onNavigate={handleNavigate} />
+
 			{route === 'home' ? (
-				<ScrollView ref={scrollRef} contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+
+				<ScrollView
+					ref={scrollRef}
+					contentContainerStyle={styles.container}
+					keyboardShouldPersistTaps="handled"
+				>
 					<View onLayout={(e) => (positions.current['apres'] = e.nativeEvent.layout.y)}>
 						<Apresentation />
 					</View>
@@ -52,13 +56,19 @@ export default function App() {
 						<Rodape />
 					</View>
 				</ScrollView>
+
 			) : (
-				<View style={styles.container}>
+
+				// ⭐⭐⭐ CORREÇÃO: A View precisa de flex: 1 para o jogo renderizar corretamente!
+				<View style={{ flex: 1 }}>
 					<TouchableOpacity onPress={() => setRoute('home')} style={styles.backButton}>
 						<Text style={styles.backText}>{'< Voltar'}</Text>
 					</TouchableOpacity>
+
+					{/* Tela do jogo da Forca */}
 					<Forca />
 				</View>
+
 			)}
 		</SafeAreaView>
 	);
