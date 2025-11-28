@@ -1,0 +1,185 @@
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+
+const wordsList = [
+  'Arrakis','Duna','Caladan','Salusa Secundus','Kaitain','Corrino',
+  'Harkonnen','Atreides','Fremen','Bene Gesserit','Mentat','Sardaukar',
+  "Muad'Dib","Kwisatz Haderach","Shai-Hulud","Especiaria","Melange",
+  'Stilgar','Chani','Alia','Paul Atreides','Irulan','Gurney Halleck',
+  'Duncan Idaho','Thufir Hawat','Liet-Kynes','Sietch','Crysknife',
+  'Gom Jabbar','Água da Vida','Choam'
+];
+
+const imagens = [
+  require('../../assets/images/Shai Hulud 1.png'),
+  require('../../assets/images/Shai Hulud 2.png'),
+  require('../../assets/images/Shai Hulud 3.png'),
+  require('../../assets/images/Shai Hulud 4.png'),
+  require('../../assets/images/Shai Hulud 5.png'),
+  require('../../assets/images/Shai Hulud 6_1.png'),
+  require('../../assets/images/Shai Hulud 7.png'),
+  require('../../assets/images/Shai Hulud and Fremen.png'),
+];
+
+export default function Forca() {
+  const [word, setWord] = useState('');
+  const [inputLetter, setInputLetter] = useState('');
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+  const [maxWrongGuesses, setMaxWrongGuesses] = useState(6);
+
+  useEffect(() => {
+    startGame();
+  }, []);
+
+  function startGame() {
+    const newWord = wordsList[Math.floor(Math.random() * wordsList.length)];
+    setWord(newWord.toUpperCase());
+    setGuessedLetters([]);
+    setMaxWrongGuesses(6);
+    setInputLetter('');
+  }
+
+  function handleSubmit() {
+    const letter = inputLetter.toUpperCase().trim();
+
+    if (!letter.match(/^[A-ZÇÁÉÍÓÚÂÊÔÃÕÜ]$/i)) {
+      Alert.alert('Aviso', 'Digite apenas letras.');
+      setInputLetter('');
+      return;
+    }
+
+    if (guessedLetters.includes(letter)) {
+      Alert.alert('Aviso', `A letra "${letter}" já foi usada!`);
+      setInputLetter('');
+      return;
+    }
+
+    setGuessedLetters((prev) => [...prev, letter]);
+
+    if (!word.includes(letter)) {
+      setMaxWrongGuesses((t) => t - 1);
+    }
+
+    setInputLetter('');
+  }
+
+  function displayPalavra() {
+    return word.split('').map((l, i) => {
+      const visible = l === ' ' || l === '-' || l === "'" || guessedLetters.includes(l) || maxWrongGuesses <= 0;
+      return (
+        <Text key={i} style={styles.letra}>
+          {visible ? l : '_'}
+        </Text>
+      );
+    });
+  }
+
+  function getImagem() {
+    const venceu = word.split('').every((l) => l === ' ' || l === '-' || guessedLetters.includes(l) || l === "'");
+    const perdeu = maxWrongGuesses <= 0;
+
+    if (venceu) return imagens[7];
+    if (perdeu) return imagens[6];
+
+    const index = 6 - maxWrongGuesses;
+    return imagens[index];
+  }
+
+  const acertadas = guessedLetters.filter((l) => word.includes(l));
+  const erradas = guessedLetters.filter((l) => !word.includes(l));
+  const gameOver = maxWrongGuesses <= 0 || word.split('').every((l) => l === ' ' || l === '-' || l === "'" || guessedLetters.includes(l));
+
+  return (
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.flex}>
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        <Text style={styles.title}>Jogo da Forca - Tema Duna</Text>
+
+        <View style={styles.imageWrap}>
+          <Image source={getImagem()} style={styles.image} resizeMode="contain" />
+        </View>
+
+        <View style={styles.palavra}>{displayPalavra()}</View>
+
+        {!gameOver && (
+          <View style={styles.form}>
+            <TextInput
+              style={styles.input}
+              maxLength={1}
+              value={inputLetter}
+              onChangeText={setInputLetter}
+              placeholder="Digite uma letra"
+              autoCapitalize="characters"
+              returnKeyType="done"
+              onSubmitEditing={handleSubmit}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Enviar</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <View style={styles.letrasUsadas}>
+          <View style={styles.letrasRow}>
+            <Text style={styles.bold}>Letras corretas: </Text>
+            {acertadas.map((l, i) => (
+              <Text key={i} style={[styles.letraUsed, styles.correta]}>{l}</Text>
+            ))}
+          </View>
+          <View style={styles.letrasRow}>
+            <Text style={styles.bold}>Letras erradas: </Text>
+            {erradas.map((l, i) => (
+              <Text key={i} style={[styles.letraUsed, styles.errada]}>{l}</Text>
+            ))}
+          </View>
+        </View>
+
+        {gameOver && (
+          <View style={styles.status}>
+            <Text style={styles.statusText}>{maxWrongGuesses <= 0 ? `Você perdeu! Palavra: ${word}` : 'Parabéns! Você ganhou!'}</Text>
+            <TouchableOpacity style={styles.restartBtn} onPress={startGame}>
+              <Text style={styles.restartText}>Reiniciar</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <Text style={styles.tentativas}>Tentativas restantes: {maxWrongGuesses}</Text>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  flex: { flex: 1 },
+  container: { padding: 16, alignItems: 'center' },
+  title: { fontSize: 20, fontWeight: '700', marginBottom: 12 },
+  imageWrap: { width: '100%', height: 220, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
+  image: { width: 300, height: 200 },
+  palavra: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginVertical: 12 },
+  letra: { fontSize: 22, marginHorizontal: 4 },
+  form: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
+  input: { borderWidth: 1, borderColor: '#ccc', padding: 8, width: 120, textAlign: 'center', borderRadius: 6, marginRight: 8 },
+  button: { backgroundColor: '#2B00FF', paddingHorizontal: 12, paddingVertical: 10, borderRadius: 6 },
+  buttonText: { color: '#fff', fontWeight: '700' },
+  letrasUsadas: { width: '100%', marginVertical: 8 },
+  letrasRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginVertical: 4 },
+  letraUsed: { marginHorizontal: 6, fontSize: 16 },
+  correta: { color: 'green' },
+  errada: { color: 'red' },
+  status: { alignItems: 'center', marginVertical: 12 },
+  statusText: { fontSize: 16, fontWeight: '700', marginBottom: 8 },
+  restartBtn: { backgroundColor: '#007AFF', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 6 },
+  restartText: { color: '#fff', fontWeight: '700' },
+  tentativas: { marginTop: 8, fontSize: 14 },
+  bold: { fontWeight: '700' },
+});
